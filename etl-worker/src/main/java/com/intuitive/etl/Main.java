@@ -7,6 +7,9 @@ public class Main {
         AnsScraper scraper = new AnsScraper();
         scraper.execute();
 
-        System.out.println("=== Processo Finalizado com Sucesso ===");
+        EtlService etl = new EtlService();
+        etl.execute();
+
+        System.out.println("=== Processo Finalizado ===");
     }
 }
