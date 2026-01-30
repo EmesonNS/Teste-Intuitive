@@ -1,4 +1,4 @@
-package com.intuitive.etl;
+package com.intuitive.etl.processor;
 
 import java.io.File;
 import java.io.Writer;

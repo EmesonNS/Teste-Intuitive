@@ -1,24 +1,34 @@
-package com.intuitive.etl;
+package com.intuitive.etl.service;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import com.intuitive.etl.model.Operadora;
+import com.intuitive.etl.processor.CsvProcessor;
+import com.intuitive.etl.processor.Processor;
+import com.intuitive.etl.utils.ValidationUtils;
+
 public class EtlService {
     private static final String RAW_DIR = "/app/data/raw";
     private static final String EXTRACTED_DIR = "/app/data/extracted";
     private static final String OUTPUT_FILE = "/app/data/consolidado_despesas.csv";
+    private static final String ENRICHED_FILE = "/app/data/consolidado_despesas_final.csv";
 
     public void execute() {
         processarArquivosZip();
         consolidarDados();
+        enriquecerDados();
     }    
 
     private void processarArquivosZip() {
@@ -67,6 +77,60 @@ public class EtlService {
 
         } catch (Exception e) {
             System.err.println("Erro na consolidação: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void enriquecerDados() {
+        System.out.println("=== 3. Enriquecendo e Validando Dados ===");
+
+        OperadoraService opService = new OperadoraService();
+        opService.carregarDados();
+
+        File inputFile = new File(OUTPUT_FILE);
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8));
+                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(ENRICHED_FILE), StandardCharsets.UTF_8))) {
+            String headerLine = br.readLine();
+            bw.write("REG_ANS;CNPJ;RazaoSocial;Modalidade;UF;Trimestre;Ano;Valor;Descricao;CNPJ_Valido\n");
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(";", -1);
+
+                String regAns = parts[0];
+                String trimestre = parts[2];
+                String ano = parts[3];
+                String valor = parts[4];
+                String descricao = parts[5];
+
+                Operadora op = opService.getOperadora(regAns);
+
+                String cnpj = "";
+                String razao = "";
+                String modalidade = "";
+                String uf = "";
+                boolean cnpjValido = false;
+
+                if (op != null) {
+                    cnpj = op.getCnpj();
+                    razao = op.getRazaoSocial();
+                    modalidade = op.getModalidade();
+                    uf = op.getUf();
+
+                    cnpjValido = ValidationUtils.isCnpjValid(cnpj);
+                } else {
+                    razao = "OPERADORA DESCONHECIDA/INATIVA";
+                }
+
+                String finalLine = String.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
+                    regAns, cnpj, razao, modalidade, uf, trimestre, ano, valor, descricao, cnpjValido);
+                
+                bw.write(finalLine);
+            }
+
+            System.out.println("Enriquecimento concluído: " + ENRICHED_FILE);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
