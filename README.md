@@ -31,7 +31,7 @@ docker-compose up --build
 ```
 
 
-*O ETL iniciará automaticamente após o banco de dados estar saudável (Healthcheck).*
+*O ETL iniciará automaticamente após o banco de dados estar saudável (Healthcheck). O sistema executará automaticamente o pipeline completo: Download -> ETL Java -> Criação do Banco -> Importação dos Dados.*
 
 4. **Verifique os Resultados (Arquivos):**
 Os arquivos gerados pelo ETL estarão na pasta local `./data` (mapeada via volume):
@@ -41,6 +41,12 @@ Os arquivos gerados pelo ETL estarão na pasta local `./data` (mapeada via volum
 * `consolidado_despesas.csv`: Arquivo intermediario de despesas.
 * `consolidado_despesas_final.csv`: Arquivo unificado e enriquecido.
 * `despesas_agregadas.csv`: Relatório estatístico.
+
+5. **Validação (Queries Analíticas):** Após o término do processamento (quando os containers estiverem estáveis), execute o script de validação para responder às perguntas de negócio (Item 3.4 do teste):
+
+```bash
+docker exec -i intuitive_db psql -U user_intuitive -d intuitive_db < sql-scripts/queries_analiticas.sql
+```
 
 ---
 
@@ -86,7 +92,9 @@ Teste_SeuNome/
 │   ├── Dockerfile
 │   └── src/
 └── sql-scripts/                # Scripts da Etapa 3
-    └── init.sql
+    ├── init.sql                # DDL: Criação das Tabelas
+    ├── import.sql              # DML: Carga dos dados (executado pelo importer)
+    └── queries_analiticas.sql  # DQL: Respostas das perguntas de negócio
 
 ```
 
@@ -118,7 +126,7 @@ src/main/java/com/intuitive/etl/
 
 ## 🧠 Decisões Técnicas e Trade-offs (Documentação)
 
-Respostas aos questionamentos específicos do PDF para as Fases 1 e 2.
+Respostas aos questionamentos específicos do PDF.
 
 ### FASE 1: Integração e Processamento
 
@@ -160,6 +168,65 @@ Respostas aos questionamentos específicos do PDF para as Fases 1 e 2.
 
 * **Decisão:** **Agregação em Memória**.
 * **Justificativa:** Como filtramos apenas contas de Despesas (Classe 4), o volume final agregado (1 linha por Operadora) cabe confortavelmente na memória. Usou-se `Collections.sort` (TimSort) para ordenar e gerar o relatório final rapidamente.
+
+### FASE 3: Teste de Banco de Dados e Análise (PostgreSQL)
+
+#### 3.1. Decisão de Infraestrutura: PostgreSQL vs MySQL
+* **Decisão:** **PostgreSQL**.
+* **Justificativa:**
+    * **Analytics:** O PostgreSQL possui um otimizador de consultas superior para queries analíticas complexas.
+    * **Tipagem e Integridade:** Oferece suporte nativo mais robusto para tipos de dados financeiros e validações de integridade (Constraints) que são vitais para dados contábeis.
+    * **Escalabilidade Futura:** O suporte nativo a JSONB permite, no futuro, armazenar metadados não estruturados das operadoras sem precisar de um banco NoSQL separado (arquitetura híbrida).
+
+#### 3.2. Trade-off técnico - Normalização
+
+* **Decisão:** **Abordagem Híbrida**
+* **Estratégia:** 
+    * **Tabelas Transacionais (`despesas_detalhadas`, `operadoras`):** Totalmente normalizadas (3NF). Evita redundância de strings (Razão Social repetida milhões de vezes) e garante integridade referencial.
+    * **Tabela Analítica (`despesas_agregadas`):** Desnormalizada.
+* **Justificativa:** Para operações de escrita e manutenção, a normalização economiza espaço e evita anomalias de atualização. Para a leitura do Dashboard (Item 2.3), a tabela desnormalizada atua como um Data Mart, permitindo leitura instantânea sem a necessidade de JOINS custosos em tempo real.
+
+#### 3.2. Trade-off técnico - Tipos de dados
+
+* **Valores Monetários:** `DECIMAL(18,2)`.
+* *Justificativa:* Jamais utilizar `FLOAT` ou `DOUBLE` para dinheiro devido a erros de precisão em cálculos de ponto flutuante (IEEE 754). `DECIMAL` garante a exatidão dos centavos contábeis.
+
+* **Datas (Trimestre/Ano):** `INTEGER`.
+* *Justificativa:* A fonte de dados fornece o conceito de "Trimestre" (ex: 1T, 2T) e não datas específicas. Converter para `DATE` (ex: 2023-01-01) seria semanticamente incorreto e induziria a erros de interpretação.
+
+
+#### 3.3. Análise Crítica: Integridade e NULLs
+
+Durante a importação, foi identificado um erro de **Restrição de Integridade (Not Null)** na tabela `despesas_agregadas`, causado por operadoras sem UF definida.
+
+* **O Problema:** A UF fazia parte da Chave Primária Composta (`PRIMARY KEY (razao, uf)`), e chaves primárias não aceitam NULL.
+* **A Solução:** Implementou-se no Java (`EtlService.java`) uma regra de negócio que atribui o valor padrão **"ND" (Não Definido)** para operadoras desconhecidas.
+* **Justificativa:** Em sistemas financeiros, rejeitar o registro (perder o dado financeiro) é pior do que ter uma dimensão geográfica imprecisa. O uso de "ND" preserva o valor contábil total para auditoria.
+
+#### 3.3. Automação de Carga (Docker Pattern)
+
+Durante esta etapa encontrou-se outra barreira, porém dessa vez relacionada ao docker, o serviço de Banco de Dados subia antes dos arquivos CSV exitirem o que chashava o banco na hora de rodar a importação. Para resolver este conflito, utilizou-se o padrão de **Short-lived Container** onde criou-se um novo isolado (`intuitive_importer`) cuja unica função seria rodar o script de import após o ETL concluir a execução.
+
+* Este container aguarda a conclusão do Java (`condition: service_completed_successfully`) e só então executa o comando `COPY`, garantindo uma orquestração livre de falhas manuais.
+
+
+#### 3.4. Justificativa das Queries Analíticas
+
+* **Query 1 (Crescimento das Operadoras):**
+    * **Desafio:** Operadoras que não possuem dados em todos os trimestres.
+    * **Decisão:** **Filtro Estrito de Ponta a Ponta**. Consideramos apenas operadoras que reportaram dados no *primeiro* E no *último* trimestre da análise global.
+    * **Justificativa:** Para um ranking de crescimento ser justo, precisamos comparar o mesmo intervalo de tempo para todos. Uma operadora que começou a operar na metade do ano teria um "crescimento" distorcido ou incomparável com uma que operou o ano todo.
+
+* **Query 3 (Despesas acima da Média):**
+    * **Trade-off Técnico:** Performance vs Legibilidade
+    * **Alternativas Consideradas:** Window Functions (`OVER PARTITION`) ou Subqueries aninhadas.
+    * **Justificativa:** Embora Window Functions sejam ligeiramente mais performáticas, CTEs oferecem uma **Legibilidade** e **Manutenibilidade** superior. A query foi estruturada no padrão "Dividir para Conquistar":
+        1. Calcula-se a média do mercado.
+        2. Compara-se cada operadora com a média.
+        3. Agrega-se o resultado final.
+        
+        Isso facilita a leitura por outros desenvolvedores e a depuração de erros.
+
 
 ---
 

@@ -16,8 +16,9 @@ services:
       retries: 5
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./sql-scripts:/docker-entrypoint-initdb.d
-
+      - ./sql-scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./data:/data_import
+    
   # Service A: ETL Worker (Java)
   etl-worker:
     build: ./etl-worker
@@ -32,6 +33,21 @@ services:
     volumes:
       - ./data:/app/data
 
+  # Serviço para importar os dados
+  data-importer:
+    image: postgres:13-alpine
+    container_name: intuitive_importer
+    depends_on:
+      db :
+        condition: service_healthy
+      etl-worker:
+        condition: service_completed_successfully
+    environment:
+      PGPASSWORD: ${DB_PASSWORD}
+    entrypoint: ["psql", "-h", "db", "-U", "${DB_USER}", "-d", "${DB_NAME}", "-f", "/scripts/import.sql"]
+    volumes:
+      - ./sql-scripts:/scripts
+  
   # Service B: Backend API (Python/FastAPI)
   api:
     build: ./backend-api
@@ -39,8 +55,8 @@ services:
     ports:
       - "${API_PORT}:8000"
     depends_on:
-      db:
-        condition: service_healthy
+      data-importer:
+        condition: service_completed_successfully
     environment:
       DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
 

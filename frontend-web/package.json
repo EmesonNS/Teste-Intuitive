@@ -1,1 +1,7 @@
-{}
+{
+  "name": "frontend-web",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "mkdir -p dist && echo '<h1>Frontend Placeholder</h1>' > dist/index.html"
+  }
+}

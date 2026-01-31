@@ -121,6 +121,7 @@ public class EtlService {
                     cnpjValido = ValidationUtils.isCnpjValid(cnpj);
                 } else {
                     razao = "OPERADORA DESCONHECIDA/INATIVA";
+                    uf = "ND";
                 }
 
                 String finalLine = String.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
