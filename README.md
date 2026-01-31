@@ -189,10 +189,10 @@ Respostas aos questionamentos específicos do PDF.
 #### 3.2. Trade-off técnico - Tipos de dados
 
 * **Valores Monetários:** `DECIMAL(18,2)`.
-* *Justificativa:* Jamais utilizar `FLOAT` ou `DOUBLE` para dinheiro devido a erros de precisão em cálculos de ponto flutuante (IEEE 754). `DECIMAL` garante a exatidão dos centavos contábeis.
+* **Justificativa:** Jamais utilizar `FLOAT` ou `DOUBLE` para dinheiro devido a erros de precisão em cálculos de ponto flutuante (IEEE 754). `DECIMAL` garante a exatidão dos centavos contábeis.
 
 * **Datas (Trimestre/Ano):** `INTEGER`.
-* *Justificativa:* A fonte de dados fornece o conceito de "Trimestre" (ex: 1T, 2T) e não datas específicas. Converter para `DATE` (ex: 2023-01-01) seria semanticamente incorreto e induziria a erros de interpretação.
+* **Justificativa:** A fonte de dados fornece o conceito de "Trimestre" (ex: 1T, 2T) e não datas específicas. Converter para `DATE` (ex: 2023-01-01) seria semanticamente incorreto e induziria a erros de interpretação.
 
 
 #### 3.3. Análise Crítica: Integridade e NULLs
