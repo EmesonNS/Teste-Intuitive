@@ -122,6 +122,20 @@ src/main/java/com/intuitive/etl/
 
 ```
 
+## 📂 Organização do Código (Python API)
+
+O módulo de Backend segue uma **Arquitetura em Camadas Simplificada** (inspirada em Clean Architecture) para facilitar manutenção e testes:
+
+```text
+backend-api/app/
+├── api/         # Controllers/Rotas (Endpoints HTTP)
+├── core/        # Configurações globais (Env vars)
+├── db/          # Configuração de conexão (Session)
+├── models/      # Entidades do Banco (SQLAlchemy ORM)
+├── repository/  # Camada de Acesso a Dados (Queries SQL abstraídas)
+└── schemas/     # DTOs e Validação (Pydantic)
+```
+
 ---
 
 ## 🧠 Decisões Técnicas e Trade-offs (Documentação)
@@ -228,12 +242,39 @@ Durante esta etapa encontrou-se outra barreira, porém dessa vez relacionada ao 
         Isso facilita a leitura por outros desenvolvedores e a depuração de erros.
 
 
+### FASE 4: API e Interface Web
+
+#### 4.2.1. Escolha do Framework: FastAPI vs Flask
+* **Decisão:** **FastAPI**.
+* **Justificativa:**
+    * **Performance:** Utiliza ASGI (Assíncrono) nativamente, sendo muito mais performático que o Flask (WSGI) para I/O operations.
+    * **Produtividade:** Validação de dados automática com Pydantic e geração automática de documentação (Swagger UI), economizando tempo de desenvolvimento manual.
+    * **Tipagem:** Uso intensivo de Type Hints do Python moderno, reduzindo bugs.
+
+#### 4.2.2. Estratégia de Paginação
+* **Decisão:** **Offset-based** (Page/Limit).
+* **Justificativa:**
+    * **Contexto:** O volume de dados, embora grande, é estático (histórico) e ordenado.
+    * **UX:** Para tabelas administrativas (Dashboard), o usuário geralmente prefere navegar por "Páginas" (1, 2, 3...) ao invés de "Carregar mais" (Cursor).
+    * **Implementação:** É suportado nativamente pelo SQL (`OFFSET` / `LIMIT`) e fácil de integrar com componentes de tabela do Frontend.
+
+#### 4.2.3. Cache vs Queries Diretas (/estatisticas)
+* **Decisão:** **Queries Diretas (com Data Mart)**.
+* **Justificativa:**
+    * A opção de usar um Cache em memória (Redis) adicionaria complexidade de infraestrutura.
+    * Como já criamos a tabela `despesas_agregadas` na Fase 3, ela atua como uma **Materialized View**. Consultar essa tabela é extremamente rápido (O(1) ou O(N_estados)), eliminando a necessidade de recalcular somas em milhões de linhas a cada requisição ou de gerenciar expiração de cache.
+
+#### 4.2.4. Estrutura de Resposta da API
+* **Decisão:** **Dados + Metadados (Envelope)**.
+* **Justificativa:**
+    * Retornar apenas a lista `[...]` impede o Frontend de saber quantas páginas existem.
+    * O formato escolhido `{ data: [...], total: 100, page: 1, limit: 10 }` fornece ao componente visual todas as informações necessárias para renderizar a barra de paginação corretamente.
 ---
 
 ## 🛠️ Stack Tecnológico
 
 * **Linguagem 1:** Java 21 (ETL & Processamento)
-* **Linguagem 2:** Python 3.10 (API - *Planejado*)
+* **Linguagem 2:** Python 3.10 (API - FastAPI, SQLAlchemy, Pydantic)
 * **Banco:** PostgreSQL 13
 * **Container:** Docker & Docker Compose
 * **Libs Java:** Jsoup (Scraping), OpenCSV (Parsing), Commons-IO.
