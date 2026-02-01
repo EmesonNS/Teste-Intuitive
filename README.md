@@ -258,7 +258,7 @@ Durante esta etapa encontrou-se outra barreira, porém dessa vez relacionada ao 
     * **UX:** Para tabelas administrativas (Dashboard), o usuário geralmente prefere navegar por "Páginas" (1, 2, 3...) ao invés de "Carregar mais" (Cursor).
     * **Implementação:** É suportado nativamente pelo SQL (`OFFSET` / `LIMIT`) e fácil de integrar com componentes de tabela do Frontend.
 
-#### 4.2.3. Cache vs Queries Diretas (/estatisticas)
+#### 4.2.3. Cache vs Queries Diretas (/api/estatisticas)
 * **Decisão:** **Queries Diretas (com Data Mart)**.
 * **Justificativa:**
     * A opção de usar um Cache em memória (Redis) adicionaria complexidade de infraestrutura.
