@@ -77,6 +77,21 @@ Após subir os containers, os serviços estarão disponíveis nos seguintes ende
 
 > **Nota:** Se a porta 8080 estiver ocupada, verifique a variável `WEB_PORT` no arquivo `.env`.
 
+7. Documentação da API (Postman)
+
+Para facilitar a integração e testes, uma coleção completa do Postman contendo todas as rotas e **exemplos de respostas** foi disponibilizada.
+
+**Como importar:**
+1. Abra o Postman.
+2. Clique em `Import`.
+3. Selecione o arquivo localizado em: `docs/intuitive_care_api.postman_collection.json`.
+
+A coleção inclui exemplos pré-gravados para:
+* Listagem de Operadoras (Paginação).
+* Busca de Operadora por ID.
+* Histórico de Despesas Detalhado.
+* Estatísticas do Dashboard (KPIs e Gráficos).
+
 ---
 
 ## 🏗️ Arquitetura da Solução

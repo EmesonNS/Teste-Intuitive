@@ -1,0 +1,638 @@
+{
+  "info": {
+    "_postman_id": "9e7a8bb7-a7a3-457c-a18f-835bc17dcc64",
+    "name": "Intuitive Care API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "45447024"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "operadoras",
+          "item": [
+            {
+              "name": "{cnpj}",
+              "item": [
+                {
+                  "name": "despesas",
+                  "item": [
+                    {
+                      "name": "Histórico de Despesas",
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/operadoras/:cnpj/despesas?page=1&limit=10&search=eventos",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "operadoras",
+                            ":cnpj",
+                            "despesas"
+                          ],
+                          "query": [
+                            {
+                              "key": "page",
+                              "value": "1"
+                            },
+                            {
+                              "key": "limit",
+                              "value": "10"
+                            },
+                            {
+                              "key": "search",
+                              "value": "eventos"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "cnpj",
+                              "value": "15011651000154"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "Sucesso - Histórico Financeiro",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/operadoras/:cnpj/despesas?page=1&limit=10",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "operadoras",
+                                ":cnpj",
+                                "despesas"
+                              ],
+                              "query": [
+                                {
+                                  "key": "page",
+                                  "value": "1"
+                                },
+                                {
+                                  "key": "limit",
+                                  "value": "10"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "cnpj",
+                                  "value": "15011651000154"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": null,
+                          "header": [
+                            {
+                              "key": "date",
+                              "value": "Mon, 02 Feb 2026 02:08:55 GMT"
+                            },
+                            {
+                              "key": "server",
+                              "value": "uvicorn"
+                            },
+                            {
+                              "key": "content-length",
+                              "value": "1392"
+                            },
+                            {
+                              "key": "content-type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n    \"data\": [\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 88841.05,\n            \"descricao\": \"Despesas com Localização e Manutenção\",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        },\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 88841.05,\n            \"descricao\": \"Despesas com Localização e Manutenção\",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        },\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 21773.09,\n            \"descricao\": \"Aluguel\",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        },\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 30366.67,\n            \"descricao\": \"Água, Luz e Gás\",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        },\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 36701.29,\n            \"descricao\": \"Outras Despesas\",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        },\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 44711.38,\n            \"descricao\": \"DESPESAS COM UTILIZAÇÃO DE EQUIPAMENTOS E VEÍCULOS\",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        },\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 44711.38,\n            \"descricao\": \"DESPESAS COM UTILIZAÇÃO DE EQUIPAMENTOS E VEÍCULOS\",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        },\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 44711.38,\n            \"descricao\": \"Despesas com Utilização de Equipamentos e Veículos\",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        },\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 44711.38,\n            \"descricao\": \"Despesas com Utilização de Equipamentos e Veículos\",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        },\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 37277.63,\n            \"descricao\": \"Aluguel\",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        }\n    ],\n    \"total\": 677,\n    \"page\": 1,\n    \"limit\": 10\n}"
+                        },
+                        {
+                          "name": "Sucesso - Filtro de Despesas (Search)",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/operadoras/:cnpj/despesas?page=1&limit=10&search=eventos",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "operadoras",
+                                ":cnpj",
+                                "despesas"
+                              ],
+                              "query": [
+                                {
+                                  "key": "page",
+                                  "value": "1"
+                                },
+                                {
+                                  "key": "limit",
+                                  "value": "10"
+                                },
+                                {
+                                  "key": "search",
+                                  "value": "eventos"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "cnpj",
+                                  "value": "15011651000154"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": null,
+                          "header": [
+                            {
+                              "key": "date",
+                              "value": "Mon, 02 Feb 2026 02:10:00 GMT"
+                            },
+                            {
+                              "key": "server",
+                              "value": "uvicorn"
+                            },
+                            {
+                              "key": "content-length",
+                              "value": "1655"
+                            },
+                            {
+                              "key": "content-type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n    \"data\": [\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 6000245.97,\n            \"descricao\": \"Despesas Judiciais de Eventos/Sinistros Médico-Hospitalares\",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        },\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 3147759.6,\n            \"descricao\": \"Despesas com Eventos/Sinistros não cobertos\",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        },\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 0,\n            \"descricao\": \"EVENTOS INDENIZÁVEIS LÍQUIDOS / SINISTROS RETIDOS\",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        },\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 0,\n            \"descricao\": \"EVENTOS/SINISTROS CONHECIDOS OU AVISADOS DE ASSISTÊNCIA À SAÚDE\",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        },\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 0,\n            \"descricao\": \"EVENTOS/ SINISTROS CONHECIDOS OU AVISADOS NA MODALIDADE DE PAGAMENTO POR PROCEDIMENTO\",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        },\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 0,\n            \"descricao\": \"EVENTOS/ SINISTROS CONHECIDOS OU AVISADOS  DE ASSISTÊNCIA A SAÚDE MEDICO HOSPITALAR \",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        },\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 2943805980.27,\n            \"descricao\": \"Despesas com Eventos / Sinistros\",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        },\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 0,\n            \"descricao\": \"EVENTOS/ SINISTROS CONHECIDOS OU AVISADOS  NA MODALIDADE DE PAGAMENTO POR PACOTE\",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        },\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 0,\n            \"descricao\": \"EVENTOS/ SINISTROS CONHECIDOS OU AVISADOS  DE ASSISTÊNCIA A SAÚDE MEDICO HOSPITALAR \",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        },\n        {\n            \"trimestre\": 3,\n            \"ano\": 2025,\n            \"valor\": 804027375.01,\n            \"descricao\": \"Despesas com Eventos / Sinistros\",\n            \"data_carga\": \"2026-02-02T01:48:55.987740\"\n        }\n    ],\n    \"total\": 57,\n    \"page\": 1,\n    \"limit\": 10\n}"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Detalhes da Operadora",
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/operadoras/:cnpj",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "operadoras",
+                        ":cnpj"
+                      ],
+                      "variable": [
+                        {
+                          "key": "cnpj",
+                          "value": "00000000"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "Sucesso - Detalhes da Operadora",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/operadoras/:cnpj",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "operadoras",
+                            ":cnpj"
+                          ],
+                          "variable": [
+                            {
+                              "key": "cnpj",
+                              "value": "15011651000154"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "date",
+                          "value": "Mon, 02 Feb 2026 01:59:51 GMT"
+                        },
+                        {
+                          "key": "server",
+                          "value": "uvicorn"
+                        },
+                        {
+                          "key": "content-length",
+                          "value": "152"
+                        },
+                        {
+                          "key": "content-type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"registro_ans\": \"421715\",\n    \"cnpj\": \"15011651000154\",\n    \"razao_social\": \"BRADESCO SAÚDE - OPERADORA DE PLANOS  S/A\",\n    \"modalidade\": \"Medicina de Grupo\",\n    \"uf\": \"SP\"\n}"
+                    },
+                    {
+                      "name": "Erro - Operadora Inexistente (404)",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/operadoras/:cnpj",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "operadoras",
+                            ":cnpj"
+                          ],
+                          "variable": [
+                            {
+                              "key": "cnpj",
+                              "value": "00000000"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": null,
+                      "header": [
+                        {
+                          "key": "date",
+                          "value": "Mon, 02 Feb 2026 02:00:57 GMT"
+                        },
+                        {
+                          "key": "server",
+                          "value": "uvicorn"
+                        },
+                        {
+                          "key": "content-length",
+                          "value": "38"
+                        },
+                        {
+                          "key": "content-type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"detail\": \"Operadora não encontrada\"\n}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Listar Operadoras",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/operadoras/?page=1&limit=10&search=bradesco",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "operadoras",
+                    ""
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "search",
+                      "value": "bradesco"
+                    }
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "Sucesso - Listagem Padrão (Pág 1)",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/operadoras/?page=1&limit=10",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "operadoras",
+                        ""
+                      ],
+                      "query": [
+                        {
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "key": "limit",
+                          "value": "10"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "date",
+                      "value": "Mon, 02 Feb 2026 01:55:17 GMT"
+                    },
+                    {
+                      "key": "server",
+                      "value": "uvicorn"
+                    },
+                    {
+                      "key": "content-length",
+                      "value": "1600"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"data\": [\n        {\n            \"registro_ans\": \"421421\",\n            \"cnpj\": \"27452545000195\",\n            \"razao_social\": \"2CARE OPERADORA DE SAÚDE LTDA.\",\n            \"modalidade\": \"Medicina de Grupo\",\n            \"uf\": \"SP\"\n        },\n        {\n            \"registro_ans\": \"418030\",\n            \"cnpj\": \"13138885000131\",\n            \"razao_social\": \"A.P.S. ADMINISTRADORA DE BENEFÍCOS LTDA.\",\n            \"modalidade\": \"Administradora de Benefícios\",\n            \"uf\": \"SP\"\n        },\n        {\n            \"registro_ans\": \"314668\",\n            \"cnpj\": \"17505793000101\",\n            \"razao_social\": \"ABERTTA SAÚDE - ASSOCIAÇÃO BENEFICENTE DOS EMPREGADOS DA ARCELORMITTAL NO BRASIL\",\n            \"modalidade\": \"Autogestão\",\n            \"uf\": \"MG\"\n        },\n        {\n            \"registro_ans\": \"335657\",\n            \"cnpj\": \"02041808000142\",\n            \"razao_social\": \"ADVANCE PLANOS DE SAÚDE LTDA\",\n            \"modalidade\": \"Medicina de Grupo\",\n            \"uf\": \"SP\"\n        },\n        {\n            \"registro_ans\": \"413283\",\n            \"cnpj\": \"03694367000140\",\n            \"razao_social\": \"AESP ODONTO ASSISTÊNCIA ODONTOLÓGICA S/S LTDA EPP\",\n            \"modalidade\": \"Odontologia de Grupo\",\n            \"uf\": \"SP\"\n        },\n        {\n            \"registro_ans\": \"417424\",\n            \"cnpj\": \"11158465000191\",\n            \"razao_social\": \"AFFIX ADMINISTRADORA DE BENEFÍCIOS LTDA\",\n            \"modalidade\": \"Administradora de Benefícios\",\n            \"uf\": \"SP\"\n        },\n        {\n            \"registro_ans\": \"368920\",\n            \"cnpj\": \"20320487000105\",\n            \"razao_social\": \"AGROS - INSTITUTO UFV DE SEGURIDADE SOCIAL\",\n            \"modalidade\": \"Autogestão\",\n            \"uf\": \"MG\"\n        },\n        {\n            \"registro_ans\": \"424285\",\n            \"cnpj\": \"57522360000170\",\n            \"razao_social\": \"AIRES OPERADORA DE SAUDE LTDA\",\n            \"modalidade\": \"Medicina de Grupo\",\n            \"uf\": \"PE\"\n        },\n        {\n            \"registro_ans\": \"421928\",\n            \"cnpj\": \"34266553000102\",\n            \"razao_social\": \"ALICE OPERADORA LTDA.\",\n            \"modalidade\": \"Medicina de Grupo\",\n            \"uf\": \"SP\"\n        },\n        {\n            \"registro_ans\": \"417289\",\n            \"cnpj\": \"07674593000110\",\n            \"razao_social\": \"ALL CARE ADMINISTRADORA DE BENEFÍCIOS SÃO PAULO LTDA\",\n            \"modalidade\": \"Administradora de Benefícios\",\n            \"uf\": \"SP\"\n        }\n    ],\n    \"total\": 808,\n    \"page\": 1,\n    \"limit\": 10\n}"
+                },
+                {
+                  "name": "Sucesso - Busca por Razão Social",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/operadoras/?page=1&limit=10&search=bradesco",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "operadoras",
+                        ""
+                      ],
+                      "query": [
+                        {
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "key": "limit",
+                          "value": "10"
+                        },
+                        {
+                          "key": "search",
+                          "value": "bradesco"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "date",
+                      "value": "Mon, 02 Feb 2026 01:57:41 GMT"
+                    },
+                    {
+                      "key": "server",
+                      "value": "uvicorn"
+                    },
+                    {
+                      "key": "content-length",
+                      "value": "341"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"data\": [\n        {\n            \"registro_ans\": \"421715\",\n            \"cnpj\": \"15011651000154\",\n            \"razao_social\": \"BRADESCO SAÚDE - OPERADORA DE PLANOS  S/A\",\n            \"modalidade\": \"Medicina de Grupo\",\n            \"uf\": \"SP\"\n        },\n        {\n            \"registro_ans\": \"005711\",\n            \"cnpj\": \"92693118000160\",\n            \"razao_social\": \"BRADESCO SAÚDE S.A.\",\n            \"modalidade\": \"Seguradora Especializada em Saúde\",\n            \"uf\": \"RJ\"\n        }\n    ],\n    \"total\": 2,\n    \"page\": 1,\n    \"limit\": 10\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "estatisticas",
+          "item": [
+            {
+              "name": "Estatísticas",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/estatisticas/",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "estatisticas",
+                    ""
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "Sucesso - KPIs e Gráficos",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/estatisticas/",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "estatisticas",
+                        ""
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "date",
+                      "value": "Mon, 02 Feb 2026 02:11:16 GMT"
+                    },
+                    {
+                      "key": "server",
+                      "value": "uvicorn"
+                    },
+                    {
+                      "key": "content-length",
+                      "value": "831"
+                    },
+                    {
+                      "key": "content-type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"total_despesas\": 4260909667522.56,\n    \"media_trimestral\": 5352901592.3650255,\n    \"top_5_operadoras\": [\n        {\n            \"registro_ans\": \"005711\",\n            \"razao_social\": \"BRADESCO SAÚDE S.A.\",\n            \"valor_total\": 439682917419.84\n        },\n        {\n            \"registro_ans\": \"006246\",\n            \"razao_social\": \"SUL AMERICA COMPANHIA DE SEGURO SAÚDE\",\n            \"valor_total\": 376831606976.64\n        },\n        {\n            \"registro_ans\": \"326305\",\n            \"razao_social\": \"AMIL ASSISTÊNCIA MÉDICA INTERNACIONAL S.A.\",\n            \"valor_total\": 324942376287.36\n        },\n        {\n            \"registro_ans\": \"368253\",\n            \"razao_social\": \"HAPVIDA ASSISTENCIA MEDICA S.A.\",\n            \"valor_total\": 180267964950.64\n        },\n        {\n            \"registro_ans\": \"359017\",\n            \"razao_social\": \"NOTRE DAME INTERMÉDICA SAÚDE S.A.\",\n            \"valor_total\": 169493173690.88\n        }\n    ],\n    \"top_5_estados\": [\n        {\n            \"uf\": \"SP\",\n            \"total\": 1532755943309.76\n        },\n        {\n            \"uf\": \"RJ\",\n            \"total\": 1065950657775.84\n        },\n        {\n            \"uf\": \"MG\",\n            \"total\": 270927353637.28\n        },\n        {\n            \"uf\": \"CE\",\n            \"total\": 269029887675.6\n        },\n        {\n            \"uf\": \"DF\",\n            \"total\": 223206212209.04\n        }\n    ]\n}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "/",
+      "item": [
+        {
+          "name": "Read Root",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                ""
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "/"
+    }
+  ]
+}
