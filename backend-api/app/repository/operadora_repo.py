@@ -27,13 +27,16 @@ class OperadoraRepository:
         return db.query(Operadora).filter(Operadora.cnpj == clean_cnpj).first()
     
     @staticmethod
-    def get_despesas_by_cnpj(db: Session, cnpj: str, skip: int = 0, limit: int = 10):
+    def get_despesas_by_cnpj(db: Session, cnpj: str, skip: int = 0, limit: int = 10, search: str = None):
         clean_cnpj = cnpj.replace(".", "").replace("/", "").replace("-", "")
         operadora = db.query(Operadora).filter(Operadora.cnpj == clean_cnpj).first()
         if operadora:
             query = db.query(DespesaDetalhada).filter(
                 DespesaDetalhada.registro_ans == operadora.registro_ans
             )
+
+            if search:
+                query = query.filter(DespesaDetalhada.descricao.ilike(f"%{search}%"))
 
             total = query.count()
 

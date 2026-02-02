@@ -136,9 +136,24 @@ backend-api/app/
 └── schemas/     # DTOs e Validação (Pydantic)
 ```
 
+## 📂 Organização do Código (Frontend Vue.js)
+
+O cliente web foi estruturado utilizando **Vue 3 (Composition API)** e **Vite**, com foco em componentização e separação de responsabilidades via Stores:
+
+```text
+frontend-web/src/
+├── assets/          # Estilos globais (Tailwind CSS)
+├── components/      # Componentes UI Reutilizáveis (Modal de Detalhes)
+├── services/        # Camada de Comunicação HTTP (Axios Singleton)
+├── stores/          # Gerenciamento de Estado Global (Pinia)
+│   └── dashboard.js # Lógica de negócio (Busca, Paginação, API Calls)
+├── App.vue          # Layout Principal (Dashboard, Gráficos, Tabela)
+└── main.js          # Ponto de entrada
+```
+
 ---
 
-## 🧠 Decisões Técnicas e Trade-offs (Documentação)
+## 🧠 Decisões Técnicas e Trade-offs 
 
 Respostas aos questionamentos específicos do PDF.
 
@@ -269,12 +284,40 @@ Durante esta etapa encontrou-se outra barreira, porém dessa vez relacionada ao 
 * **Justificativa:**
     * Retornar apenas a lista `[...]` impede o Frontend de saber quantas páginas existem.
     * O formato escolhido `{ data: [...], total: 100, page: 1, limit: 10 }` fornece ao componente visual todas as informações necessárias para renderizar a barra de paginação corretamente.
+
+
+#### 4.3. Interface Web (Frontend)
+
+#### 4.3.1. Estratégia de Busca/Filtro
+* **Decisão:** **Busca no Servidor (Server-side)**.
+* **Justificativa:**
+    * Embora o dataset atual coubesse na memória do navegador, em um cenário real de operadoras de saúde, o volume de dados cresce exponencialmente. Filtrar no cliente causaria travamentos.
+    * **Otimização:** Implementou-se um mecanismo de **Debounce** (atraso de 500ms) no input de busca para evitar "flooding" de requisições desnecessárias à API enquanto o usuário digita.
+
+#### 4.3.2. Gerenciamento de Estado
+* **Decisão:** **Pinia**.
+* **Justificativa:**
+    * A complexidade da aplicação (compartilhar filtros, paginação e dados selecionados entre a Tabela Principal e o Modal de Detalhes) exige um gerenciador de estado.
+    * O Pinia foi escolhido por ser o padrão oficial do Vue 3, oferecendo melhor integração com TypeScript/IDE e uma API mais limpa (sem mutations complexas) em comparação ao Vuex.
+
+#### 4.3.3. Performance da Tabela
+* **Decisão:** **Paginação Real (Server-side)**.
+* **Justificativa:** Renderizar milhares de linhas no DOM (HTML) degradaria severamente a performance do navegador. A paginação mantém o DOM leve (apenas 10 itens por vez), garantindo 60 FPS na rolagem e interação instantânea.
+
+#### 4.3.4. Tratamento de Erros e Loading
+* **Abordagem:** **Feedback Visual Contextual**.
+* **Implementação:**
+    * **Loading:** Em vez de bloquear a tela inteira, utilizamos *spinners* localizados (dentro do botão atualizar) ou estados de tabela específicos ("Carregando dados...").
+    * **Empty States:** Mensagens amigáveis ("Nenhum registro encontrado") instruem o usuário quando uma busca não retorna resultados, melhorando a UX em comparação a uma tela em branco.
+    * **Interatividade:** O botão de "Detalhes" só aparece ao passar o mouse (hover) sobre a linha, reduzindo a poluição visual e guiando a atenção do usuário.
+
 ---
 
 ## 🛠️ Stack Tecnológico
 
 * **Linguagem 1:** Java 21 (ETL & Processamento)
 * **Linguagem 2:** Python 3.10 (API - FastAPI, SQLAlchemy, Pydantic)
+* **Frontend:** Vue.js 3, Vite, TailwindCSS (Estilização), Pinia (State), Chart.js (Visualização de Dados), Axios.
 * **Banco:** PostgreSQL 13
 * **Container:** Docker & Docker Compose
 * **Libs Java:** Jsoup (Scraping), OpenCSV (Parsing), Commons-IO.

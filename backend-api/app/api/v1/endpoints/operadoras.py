@@ -36,13 +36,14 @@ def read_operadora_despesas(
     cnpj: str,
     db: Session = Depends(get_db),
     page: int = Query(1, ge=1),
-    limit: int = Query(10, ge=1, le=100)
+    limit: int = Query(10, ge=1, le=100),
+    search: Optional[str] = None
 ):
     skip = (page - 1) * limit
-    despesas, total = OperadoraRepository.get_despesas_by_cnpj(db, cnpj, skip=skip, limit=limit)
+    despesas, total = OperadoraRepository.get_despesas_by_cnpj(db, cnpj, skip=skip, limit=limit, search=search)
 
     if despesas is None and total == 0:
-        raise HTTPException(status_code=404, detail="Operadora não encontrada")
+        pass
     
     return {
         "data": despesas,
