@@ -48,6 +48,19 @@ Os arquivos gerados pelo ETL estarão na pasta local `./data` (mapeada via volum
 docker exec -i intuitive_db psql -U user_intuitive -d intuitive_db < sql-scripts/queries_analiticas.sql
 ```
 
+6. Acesso à Aplicação
+
+Após subir os containers, os serviços estarão disponíveis nos seguintes endereços locais:
+
+| Serviço | URL | Descrição |
+| :--- | :--- | :--- |
+| **Frontend (Dashboard)** | [http://localhost:8080](http://localhost:8080) | Interface Web Interativa |
+| **API Docs (Swagger)** | [http://localhost:8000/docs](http://localhost:8000/docs) | Documentação interativa da API |
+| **API Docs (ReDoc)** | [http://localhost:8000/redoc](http://localhost:8000/redoc) | Documentação alternativa da API |
+| **API Endpoint** | [http://localhost:8000/api](http://localhost:8000/api) | Base URL da API Rest |
+
+> **Nota:** Se a porta 8080 estiver ocupada, verifique a variável `WEB_PORT` no arquivo `.env`.
+
 ---
 
 ## 🏗️ Arquitetura da Solução
@@ -315,9 +328,9 @@ Durante esta etapa encontrou-se outra barreira, porém dessa vez relacionada ao 
 
 ## 🛠️ Stack Tecnológico
 
-* **Linguagem 1:** Java 21 (ETL & Processamento)
-* **Linguagem 2:** Python 3.10 (API - FastAPI, SQLAlchemy, Pydantic)
-* **Frontend:** Vue.js 3, Vite, TailwindCSS (Estilização), Pinia (State), Chart.js (Visualização de Dados), Axios.
+* **Scraper:** Java 21 (ETL & Processamento)
+* **Backend:** Python 3.10 (FastAPI, SQLAlchemy, Pydantic)
+* **Frontend:** Vue.js 3, Vite, TailwindCSS, Pinia, Chart.js
 * **Banco:** PostgreSQL 13
 * **Container:** Docker & Docker Compose
 * **Libs Java:** Jsoup (Scraping), OpenCSV (Parsing), Commons-IO.
