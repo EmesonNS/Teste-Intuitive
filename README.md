@@ -2,6 +2,22 @@
 
 Este repositório contém a solução para o desafio técnico de admissão da Intuitive Care. O projeto implementa uma arquitetura de **Microserviços "Light" (Container-based)**, orquestrada via Docker Compose, utilizando uma abordagem **Poliglota** para aproveitar o melhor dos ecossistemas Java e Python.
 
+## 📊 Visualização do Projeto
+
+Aqui está uma prévia do Dashboard interativo e da tela de detalhes com histórico financeiro:
+
+<div align="center">
+  <h3>Dashboard Geral (KPIs e Gráficos)</h3>
+  <img src="screenshot/dashboard_inicial.png" alt="Dashboard Inicial" width="100%">
+  
+  <br/><br/>
+
+  <h3>Detalhes da Operadora e Busca no Histórico</h3>
+  <img src="screenshot/detalhe_operadora.png" alt="Detalhes da Operadora" width="100%">
+</div>
+
+<br/>
+
 ---
 
 ## 🚀 Como Executar o Projeto
